@@ -25,10 +25,10 @@ data Currency : Type where
   Euro : Currency
 
 data Money : Currency -> Type where
-  Coins : (amount : Nat) -> Money c
+  Coins : (currency : Currency) -> (amount : Nat) -> Money currency
 
 addMoney : (a : Money c) -> (b : Money c) -> Money c
-addMoney (Coins x) (Coins y) = Coins (x + y)
+addMoney (Coins _ x) (Coins _ y) = Coins _ (x + y)
 
 {-(already in Prelude!)
 data Nat : Type where
@@ -68,8 +68,8 @@ first (NonEmpty x rest) = Just x
 smartFirst : (vect : Vect (S n) elem) -> elem
 smartFirst (NonEmpty x rest) = x
 
-addFoo : (vect : Vect n Char) -> Vect (3 + n) Char
-addFoo vect = NonEmpty 'f' (NonEmpty 'o' (NonEmpty 'o' vect))
+prependFoo : (vect : Vect n Char) -> Vect (3 + n) Char
+prependFoo vect = NonEmpty 'f' (NonEmpty 'o' (NonEmpty 'o' vect))
 
 append : (vect1 : Vect n elem) -> (vect2 : Vect m elem) -> Vect (n + m) elem
 append Empty vect2 = vect2
