@@ -57,20 +57,20 @@ clean {n} vehicle = "Cleaning all " ++ show n ++ " wheels..."
 doWheelie : (twoWheeledVehicle : Vehicle 2) -> String
 doWheelie Bicycle = "Woohoo!"
 
-data Vect : (length : Nat) -> (elements : Type) -> Type where
-  Empty : Vect Z elem
-  NonEmpty : (first : elem) -> (rest : Vect n elem) -> Vect (S n) elem
+data SizedString : (length : Nat) -> Type where
+  Empty : SizedString Z
+  NonEmpty : (first : Char) -> (rest : SizedString n) -> SizedString (S n)
 
-first : (vect : Vect n elem) -> Maybe elem
+first : (str : SizedString n) -> Maybe Char
 first Empty = Nothing
-first (NonEmpty x rest) = Just x
+first (NonEmpty c rest) = Just c
 
-smartFirst : (vect : Vect (S n) elem) -> elem
+smartFirst : (str : SizedString (S n)) -> Char
 smartFirst (NonEmpty x rest) = x
 
-prependFoo : (vect : Vect n Char) -> Vect (3 + n) Char
-prependFoo vect = NonEmpty 'f' (NonEmpty 'o' (NonEmpty 'o' vect))
+prependFoo : (str : SizedString n) -> SizedString (3 + n)
+prependFoo s = NonEmpty 'f' (NonEmpty 'o' (NonEmpty 'o' s))
 
-append : (vect1 : Vect n elem) -> (vect2 : Vect m elem) -> Vect (n + m) elem
-append Empty vect2 = vect2
-append (NonEmpty x rest) vect2 = NonEmpty x (append rest vect2)
+append : (str1 : SizedString n) -> (str2 : SizedString m) -> SizedString (n + m)
+append Empty str2 = str2
+append (NonEmpty c rest) str2 = NonEmpty c (append rest str2)
